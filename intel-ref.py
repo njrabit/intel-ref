@@ -12,7 +12,11 @@ word = sys.argv[2].lower()
 f = open(fn, 'r')
 
 def launch_pdf(pdf, page):
-	os.system("osascript %s %s %s" % (applescript, pdf, page))
+	if os.name == "mac":
+		os.system("osascript %s %s %s" % (applescript, pdf, page))
+	if os.name == "posix":
+		#os.system("evince --page-label=%s %s" % (page, pdf))
+		os.system("okular -p %s %s" % (page, pdf))
 
 for line in f:
 	pdf,page,kws,descr = line.split(';', 3)
